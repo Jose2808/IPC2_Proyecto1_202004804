@@ -1,8 +1,15 @@
 class Nodo:
     def __init__(self, dato):
         self.dato = dato
-        self.siguiente = None
+        self.m = 0
+        self.n = 0
+        self.inicioX = 0
+        self.inicioY = 0
+        self.finalX = 0
+        self.finalY = 0
         self.mapa = None
+        self.siguiente = None
+        
 
     def setMapa(self, mapa):
         self.mapa = mapa
@@ -13,6 +20,21 @@ class Nodo:
     def setDato(self, dato):
         self.dato = dato
 
+    def setInicioX(self, x):
+        self.inicioX = x
+
+    def setInicioY(self, y):
+        self.inicioY = y
+
+    def setFinalX(self, x):
+        self.finalX = x
+
+    def setFinalY(self, y):
+        self.finalY = y
+
+    def getInicioX(self):
+        return self.inicioX
+
     def getDato(self):
         return self.dato
 
@@ -21,3 +43,5 @@ class Nodo:
 
     def getMapa(self):
         return self.mapa
+
+    

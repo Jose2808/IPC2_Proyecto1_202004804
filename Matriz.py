@@ -1,6 +1,7 @@
+from Lista import ListaNodos
 from Nodo import Nodo
 from Encabezados import columnas, filas
-from Nodos import NodoC, NodoF, NodoM
+from Nodos import NodoC, NodoF, NodoM, NodoN, NodoP
 
 class Matriz:
     def __init__ (self):
@@ -60,6 +61,44 @@ class Matriz:
                 if puntero.abajo == None:
                     puntero.abajo = nodo_nuevo
                     nodo_nuevo.arriba = puntero
+
+    def mayorX(self):
+        return self.cabecera_columnas.mayorX()
+
+    def mayorY(self):
+        return self.cabecera_filas.mayorY()
+
+    def obtenerNodo(self, x, y):
+        puntero = self.cabecera_filas.primero.acceso
+        while puntero is not None:
+            if puntero.y == y:
+                while puntero is not None:
+                    if puntero.x == x:
+                        nodo = NodoP(puntero)
+                        return nodo
+                    puntero = puntero.derecha
+            puntero = puntero.abajo
+        return None
+
+    def obtenerHermanos(self, x, y):
+        hermanos = ListaNodos()
+        puntero = self.cabecera_filas.primero.acceso
+        while puntero is not None:
+            if puntero.y == y:
+                while puntero is not None:
+                    if puntero.x == x:
+                        if puntero.arriba is not None and puntero.arriba.visitado is not True:
+                            hermanos.insertarNodo(puntero.arriba)
+                        if puntero.abajo is not None and puntero.abajo.visitado is not True:
+                            hermanos.insertarNodo(puntero.abajo)
+                        if puntero.derecha is not None and puntero.derecha.visitado is not True:
+                            hermanos.insertarNodo(puntero.derecha)
+                        if puntero.izquierda is not None and puntero.izquierda.visitado is not True:
+                            hermanos.insertarNodo(puntero.izquierda)
+                        return hermanos
+                    puntero = puntero.derecha
+            puntero = puntero.abajo
+        return None
 
     def mostrarColumnas(self):
         encabezado_columna = self.cabecera_columnas.primero

@@ -47,6 +47,15 @@ class columnas:
             print("Columna en x: ", puntero.x)
             puntero = puntero.derecha
 
+    def mayorX(self):
+        puntero = self.primero
+        if puntero is not None:
+            while puntero.derecha is not None:
+                puntero = puntero.derecha
+            return puntero.x
+        else:
+            return 0
+
 
 class filas:
     def __init__ (self):
@@ -95,6 +104,15 @@ class filas:
             print("Fila en la posición: ", puntero.y)
             puntero = puntero.abajo
         return None
+
+    def mayorY(self):
+        puntero = self.primero
+        if puntero is not None:
+            while puntero.abajo is not None:
+                puntero = puntero.abajo
+            return puntero.y
+        else:
+            return 0
 
 
 

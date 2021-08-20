@@ -3,10 +3,17 @@ class NodoM:
         self.data = data
         self.x = x
         self.y = y
+        self.visitado = False
         self.arriba = None
         self.abajo = None
         self.derecha = None
         self.izquierda = None
+
+    def setData(self, data):
+        self.data = data
+
+    def getData(self):
+        return self.data
 
 class NodoC:
     def __init__ (self, x):
@@ -22,3 +29,12 @@ class NodoF:
         self.abajo = None
         self.acceso = None
 
+class NodoN:
+    def __init__ (self, nodo):
+        self.siguiente = None
+        self.nodo = nodo
+
+class NodoP:
+    def __init__ (self, nodo):
+        self.siguiente = None
+        self.nodo = nodo
