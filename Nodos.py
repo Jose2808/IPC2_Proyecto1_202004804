@@ -8,9 +8,18 @@ class NodoM:
         self.abajo = None
         self.derecha = None
         self.izquierda = None
+        self.nodoPadre = None
 
-    def setData(self, data):
-        self.data = data
+    def setData(self, nodo):
+        if self.nodoPadre == None:
+            self.nodoPadre = nodo
+            self.data = self.data + self.nodoPadre.nodo.data
+        elif self.data < ((self.data - self.nodoPadre.nodo.data) + nodo.nodo.data):
+            pass
+        else:
+            self.data = self.data - self.nodoPadre.nodo.data
+            self.data = self.data + nodo.nodo.data
+            self.nodoPadre = nodo
 
     def getData(self):
         return self.data

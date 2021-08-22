@@ -8,11 +8,15 @@ class Nodo:
         self.finalX = 0
         self.finalY = 0
         self.mapa = None
+        self.mapa_algoritmo = None
         self.siguiente = None
         
 
     def setMapa(self, mapa):
         self.mapa = mapa
+
+    def setMapaAlgoritmo(self, mapa):
+        self.mapa_algoritmo = mapa
     
     def setSiguiente(self, siguiente):
         self.siguiente = siguiente
@@ -43,5 +47,8 @@ class Nodo:
 
     def getMapa(self):
         return self.mapa
+
+    def getMapaAlgoritmo(self):
+        return self.mapa_algoritmo
 
     

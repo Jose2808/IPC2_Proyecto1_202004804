@@ -1,17 +1,20 @@
+from graphviz.backend import view
+from graphviz.dot import Graph
 from Matriz import Matriz
-from Lista import Lista, ListaNodos, Lista_prioridad
-from Encabezados import columnas
-from Nodos import NodoC, NodoF, NodoM
+from Lista import Lista, Lista_prioridad
 from Nodo import Nodo
 from Matriz import Matriz
 import xml.etree.ElementTree as xml
+from graphviz import Graph
 
 end_program = False
 terrenos = Lista()
+terreno_actual = Matriz()
+terreno_actual_aux = Matriz()
 
 def carga():
     #respuesta = input("Ingrese la ruta del archivo a procesar\n")
-    objetoTree = xml.parse("prueba.xml")
+    objetoTree = xml.parse("prueba2.xml")
     root = objetoTree.getroot()
     for terreno in root.findall("terreno"):
         terreno_actual = Nodo(terreno.get("nombre"))
@@ -45,9 +48,25 @@ def carga():
         terrenos.insertar(terreno_actual)
         #mapa.mostrarColumnas()
         terrenos.asignarMapa(terreno.get("Nombre"), mapa)
-    print("Carga realizada exitosamente")       
-         
+        terrenos.asignarMapaAlgoritmo(terreno.get("Nombre"), mapa)
+
+    print("Carga realizada exitosamente")      
+
+def generarGrafico():
+    global terreno_actual_aux
+    gra = Graph()
+    contador = 0
+    puntero = terreno_actual_aux.cabecera_columnas.primero.acceso
+    while puntero is not None:
+        gra.node(str(contador), str(puntero.data))
+        contador = contador +1
+        puntero = puntero.derecha
+    print(terreno_actual_aux.cabecera_columnas.primero.acceso.data)
+    gra.render('Machine.gv.pdf', view = True)
+
+
 def menuPrincipal():
+    
     print("Menu Principal:")
     print("\t1. Cargar Archivo")
     print("\t2. Procesar Archivo")
@@ -62,6 +81,7 @@ def menuPrincipal():
     if int(respuesta) == 1:
         carga()
     elif int(respuesta) == 2:
+        global terreno_actual
         print("Ingrese el nombre del terreno a procesar")
         terreno_res = input()
         nodo_terreno = terrenos.verificarTerreno(terreno_res)
@@ -81,16 +101,16 @@ def menuPrincipal():
             if vecinos.inicio is not None:
                 puntero = vecinos.inicio
                 while puntero is not None:
-                    puntero.nodo.setData(puntero.nodo.getData() + nodo_actual.nodo.data)
-                    lista.analizarNodo(puntero.nodo)
+                    puntero.nodo.setData(nodo_actual)
+                    lista.insertar(puntero.nodo)
                     #print("x: ", puntero.nodo.x, "y: ", puntero.nodo.y, "Combustible: ", puntero.nodo.data)
                     puntero = puntero.siguiente
             nodo_actual.nodo.visitado = True
-            lista.recorrer()
-            print("")
-            print("")
+            #lista.recorrer()
+            #print("")
+            #print("")
             nodo_actual = lista.pop()
-            print(nodo_actual.nodo.data)
+        print(nodo_actual.nodo.data)
         print("************************************************")
         print("        TERRENO PROCESADO EXITOSAMENTE          ")
         print("************************************************")
@@ -99,11 +119,6 @@ def menuPrincipal():
         print("Coordenadas    x: ", nodo_actual.nodo.x , "y: ", nodo_actual.nodo.y, "Gasto de combustible: ", nodo_actual.nodo.data)
         print("")
         print("")
-        
-        
-        
-        
-        
     elif int(respuesta) == 3:
         print("Usted ha seleccionado la tercera opción")
     elif int(respuesta) == 4:
@@ -113,7 +128,7 @@ def menuPrincipal():
         print("Ingeniería en Ciencias y Sistemas")
         print("4to Semestre")
     elif int(respuesta) == 5:
-        print("Usted ha seleccionado la tercera opción")
+        generarGrafico()
     elif int(respuesta) == 6:
         global end_program
         end_program = True

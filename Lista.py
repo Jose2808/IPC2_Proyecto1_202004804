@@ -38,6 +38,14 @@ class Lista:
                 break
             puntero = puntero.siguiente
         puntero.setMapa(mapa)
+
+    def asignarMapaAlgoritmo(self, terreno, mapa):
+        puntero = self.inicio
+        while puntero.siguiente is not None:
+            if puntero.dato == terreno:
+                break
+            puntero = puntero.siguiente
+        puntero.setMapaAlgoritmo(mapa)
     
     def recorrer(self):
         puntero = self.inicio
@@ -115,26 +123,61 @@ class Lista_prioridad:
 
 
     
-    def insertar(self, nodo):
+    #def insertar(self, nodo):
         #nodo = NodoP(nodo_nuevo)
-        if self.inicio == None:
-            self.inicio = nodo
-        else:
-            if nodo.nodo.data < self.inicio.nodo.data:
-                nodo.siguiente = self.inicio
-                self.inicio = nodo
-            else:
-                puntero = self.inicio
-                while puntero.siguiente is not None:
-                    if nodo.nodo.data < puntero.siguiente.nodo.data:
-                        nodo.siguiente = puntero.siguiente
-                        puntero.siguiente = nodo
-                        break
-                    puntero = puntero.siguiente
+        #if self.inicio == None:
+            #self.inicio = nodo
+        #else:
+            #if nodo.nodo.data < self.inicio.nodo.data:
+                #nodo.siguiente = self.inicio
+                #self.inicio = nodo
+            #else:
+                #puntero = self.inicio
+                #while puntero.siguiente is not None:
+                    #if nodo.nodo.data < puntero.siguiente.nodo.data:
+                        #nodo.siguiente = puntero.siguiente
+                        #puntero.siguiente = nodo
+                        #break
+                    #puntero = puntero.siguiente
 
-                if puntero.siguiente is None:
-                    puntero.siguiente = nodo
-    
+                #if puntero.siguiente is None:
+                    #puntero.siguiente = nodo
+
+    def existe(self, nodo):
+        puntero = self.inicio
+        while puntero is not None:
+            if puntero == nodo:
+                return True 
+            puntero = puntero.siguiente
+        if puntero is None:
+            return False
+
+
+    def insertar(self, nodo):
+        nodo_nuevo = NodoP(nodo)
+        if self.inicio == None:
+            self.inicio = nodo_nuevo
+        
+        elif self.existe(nodo_nuevo):
+            pass
+        elif nodo_nuevo.nodo.data < self.inicio.nodo.data:
+            nodo_nuevo.siguiente = self.inicio
+            self.inicio = nodo_nuevo
+        else:
+            puntero = self.inicio
+            while puntero.siguiente is not None:
+                if puntero.nodo.x == nodo_nuevo.nodo.x:
+                    if puntero.nodo.y == nodo_nuevo.nodo.y:
+                        break
+                if nodo_nuevo.nodo.data <= puntero.siguiente.nodo.data:
+                    nodo_nuevo.siguiente = puntero.siguiente
+                    puntero.siguiente = nodo_nuevo
+                    break
+                puntero = puntero.siguiente
+            if puntero.siguiente is None:
+                puntero.siguiente = nodo_nuevo
+                
+            
     def recorrer(self):
         puntero = self.inicio
         while puntero is not None:
