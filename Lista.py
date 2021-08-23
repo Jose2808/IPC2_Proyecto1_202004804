@@ -73,6 +73,34 @@ class ListaNodos:
         while puntero is not None:
             print("x: ", puntero.nodo.x, "y: ", puntero.nodo.y, "combustible: ", puntero.nodo.data)
             puntero = puntero.siguiente
+    
+class ListaCamino():
+    def __init__ (self):
+        self.inicio = None
+    
+    def insertarNodo(self, nodo):
+        nodo_nuevo = NodoN(nodo)
+        if self.inicio == None:
+            self.inicio = nodo_nuevo
+        else:
+            nodo_nuevo.siguiente = self.inicio
+            self.inicio = nodo_nuevo
+
+    def recorrer(self):
+        puntero = self.inicio
+        while puntero is not None:
+            print("x: ", puntero.nodo.x, "y: ", puntero.nodo.y, "combustible: ", puntero.nodo.data)
+            puntero = puntero.siguiente
+
+    def verificarPunto(self, x, y):
+        puntero = self.inicio
+        while puntero is not None:
+            if ((puntero.nodo.x == x) and (puntero.nodo.y == y)):
+                return True
+            puntero = puntero.siguiente
+        if puntero is None:
+            return False
+            
 
 class Lista_prioridad:
     def __init__ (self):

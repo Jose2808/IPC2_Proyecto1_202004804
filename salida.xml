@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<terreno nombre="terreno1">
+	<posicioninicio>
+		<x>1</x>
+		<y>1</y>
+	</posicioninicio>
+	<posicionfin>
+		<x>5</x>
+		<y>5</y>
+	</posicionfin>
+	<combustible>79</combustible>
+	<posicion x="1" y="0">17</posicion>
+	<posicion x="2" y="0">17</posicion>
+	<posicion x="2" y="1">17</posicion>
+	<posicion x="2" y="2">23</posicion>
+	<posicion x="2" y="3">26</posicion>
+	<posicion x="2" y="4">28</posicion>
+	<posicion x="3" y="4">30</posicion>
+	<posicion x="4" y="4">38</posicion>
+	<posicion x="5" y="4">42</posicion>
+	<posicion x="6" y="4">55</posicion>
+	<posicion x="6" y="5">57</posicion>
+	<posicion x="6" y="6">67</posicion>
+	<posicion x="6" y="7">72</posicion>
+	<posicion x="7" y="7">77</posicion>
+	<posicion x="7" y="8">79</posicion>
+</terreno>
