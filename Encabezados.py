@@ -14,10 +14,6 @@ class columnas:
                 nodo.derecha = self.primero
                 self.primero.izquierda = nodo
                 self.primero = nodo
-            #elif nodo.x > self.ultimo.x:
-                #nodo.izquierda = self.ultimo
-                #self.ultimo.derecha = nodo
-                #self.utlimo = nodo
             else:
                 puntero = self.primero
                 while puntero.derecha is not None:
@@ -71,10 +67,6 @@ class filas:
                 nodo.abajo = self.primero
                 self.primero.arriba = nodo
                 self.primero = nodo
-            #elif nodo.y > self.ultimo.y:
-                #nodo.arriba  = self.ultimo
-                #self.ultimo.abajo = nodo
-                #self.ultimo = nodo
             else:
                 puntero = self.primero
                 while puntero.abajo is not None:

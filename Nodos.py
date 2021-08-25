@@ -21,6 +21,10 @@ class NodoM:
             self.data = self.data + nodo.nodo.data
             self.nodoPadre = nodo
 
+    def resetData(self):
+        if self.nodoPadre is not None:
+            self.data = self.data - self.nodoPadre.nodo.data
+
     def getData(self):
         return self.data
 

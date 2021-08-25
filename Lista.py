@@ -5,7 +5,6 @@ class Lista:
         self.inicio = None
 
     def insertar(self, dato):
-        #nuevo_nodo = Nodo(dato)
         nuevo_nodo = dato
         if self.inicio == None:
             self.inicio = nuevo_nodo
@@ -28,7 +27,6 @@ class Lista:
                 return puntero
             else:
                 return None
-            #puntero = puntero.siguiente
 
     
     def asignarMapa(self, terreno, mapa):
@@ -39,13 +37,13 @@ class Lista:
             puntero = puntero.siguiente
         puntero.setMapa(mapa)
 
-    def asignarMapaAlgoritmo(self, terreno, mapa):
+    def asignarMapaAux(self, terreno, mapa):
         puntero = self.inicio
         while puntero.siguiente is not None:
             if puntero.dato == terreno:
                 break
             puntero = puntero.siguiente
-        puntero.setMapaAlgoritmo(mapa)
+        puntero.setMapaAux(mapa)
     
     def recorrer(self):
         puntero = self.inicio

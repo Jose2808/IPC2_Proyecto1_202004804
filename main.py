@@ -1,3 +1,4 @@
+import graphviz
 from graphviz.backend import view
 from graphviz.dot import Graph
 from Matriz import Matriz
@@ -8,6 +9,7 @@ from colorama import Fore
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 from graphviz import Graph
+from os import system, startfile
 
 end_program = False
 terrenos = Lista()
@@ -52,20 +54,41 @@ def carga():
             continue
         terrenos.insertar(terreno_actual)
         terrenos.asignarMapa(terreno.get("Nombre"), mapa)
-        terrenos.asignarMapaAlgoritmo(terreno.get("Nombre"), mapa)
+        terrenos.asignarMapaAux(terreno.get("Nombre"), mapa)
 
     print("Carga realizada exitosamente")      
 def generarGrafico():
-    global terreno_actual_aux
-    gra = Graph()
-    contador = 0
-    puntero = terreno_actual_aux.cabecera_columnas.primero.acceso
-    while puntero is not None:
-        gra.node(str(contador), str(puntero.data))
-        contador = contador +1
-        puntero = puntero.derecha
-    print(terreno_actual_aux.cabecera_columnas.primero.acceso.data)
-    gra.render('Machine.gv.pdf', view = True)
+    #nodo_terreno = terrenos.verificarTerreno(terreno_res)
+    #terreno_actual_aux = nodo_terreno.mapaAux
+    grafico = """digraph L{
+        node[shape = box fillcolor = "#FFEDBB" style = filled]
+        subgraph cluster_p{
+        label = "Matriz Dispersa"
+        bgcolor = "#398D9C"
+        raiz[label = "0,0"]
+        edge[dir = "both"]
+        Fila1[label = "1", group = 1];
+        Fila2[label = "2", group = 1];
+        Fila3[label = "3", group = 1];
+        Fila4[label = "4", group = 1];
+        Fila5[label = "5", group = 1];
+    }
+    }"""
+    miArchivo = open('graphviz.dot', 'w')
+    miArchivo.write(grafico)
+    miArchivo.close
+    system('dot -Tpng graphviz.dot -o graphviz.png')
+    system('cd ./graphviz.png')
+    startfile('graphviz.png')
+    #gra = Graph()
+    #contador = 0
+    #puntero = terreno_actual_aux.cabecera_columnas.primero.acceso
+    #while puntero is not None:
+        #gra.node(str(contador), str(puntero.data))
+        #contador = contador +1
+        #puntero = puntero.derecha
+    #print(terreno_actual_aux.cabecera_columnas.primero.acceso.data)
+    #gra.render('Machine.gv.pdf', view = True)
 def menuPrincipal():
     
     print("Menu Principal:")
@@ -92,7 +115,6 @@ def menuPrincipal():
         if nodo_terreno == None:
             print("El terreno que usted ha ingresado no se encuentra en el programa")
         terreno_actual = nodo_terreno.getMapa()
-
         #Algoritmo para encontrar el camino más corto
         print("*************************************************")
         print(" CALCULANDO MEJOR RUTA Y SU COSTE DE COMBUSTIBLE ")
@@ -152,6 +174,7 @@ def menuPrincipal():
             ultimo = ultimo.siguiente
         combustible = ultimo.nodo.data
         while ultimo != None:
+            ultimo.nodo.resetData()
             ruta.insertarNodo(ultimo.nodo)
             ultimo = ultimo.nodo.nodoPadre
 
@@ -177,6 +200,7 @@ def menuPrincipal():
         try:
             miArchivo = open(ruta_archivo + "\salida.xml", "w")
             miArchivo.write(xml2)
+            miArchivo.close()
             print("El archivo se ha escrito satisfactoriamente")
         except:
             print("Ocurrió un error al escribir el archivo, por favor inténtelo de nuevo")
@@ -196,3 +220,4 @@ def main():
 while not end_program:
     if __name__ == "__main__":
         main()
+        
