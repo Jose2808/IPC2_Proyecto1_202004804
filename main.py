@@ -38,6 +38,7 @@ def carga():
                 for n in dimension.findall("n"):
                     terreno_actual.n = int(n.text)
         mapa = Matriz()
+        mapa_aux = Matriz()
         for posicionI in terreno.findall("posicioninicio"):
             for x in posicionI.findall("x"):
                 terreno_actual.inicioX = int(x.text)
@@ -50,33 +51,64 @@ def carga():
                 terreno_actual.finalY = int(y.text)
         for posiciones in terreno.findall("posicion"):
             mapa.agregarNodo(int(posiciones.text), int(posiciones.get("x")), int(posiciones.get("y" )))
+            mapa_aux.agregarNodo(int(posiciones.text), int(posiciones.get("x")), int(posiciones.get("y" )))
         if mapa.mayorX() > terreno_actual.n or mapa.mayorY() > terreno_actual.m:
             continue
         terrenos.insertar(terreno_actual)
         terrenos.asignarMapa(terreno.get("Nombre"), mapa)
-        terrenos.asignarMapaAux(terreno.get("Nombre"), mapa)
+        terrenos.asignarMapaAux(terreno.get("Nombre"), mapa_aux)
 
     print("Carga realizada exitosamente")      
 def generarGrafico():
-    #nodo_terreno = terrenos.verificarTerreno(terreno_res)
-    #terreno_actual_aux = nodo_terreno.mapaAux
-    grafico = """digraph L{
-        node[shape = box fillcolor = "#FFEDBB" style = filled]
-        subgraph cluster_p{
-        label = "Matriz Dispersa"
+    print("Ingrese el nombre del terreno que desea graficar")
+    respuesta = input()
+    nodo_terreno = terrenos.verificarTerreno(respuesta)
+    terreno_actual_aux = nodo_terreno.mapaAux
+    
+    grafico = '''digraph L{
+        node[shape = doublecircle fillcolor = "#FFEDBB" style = filled]
+        subgraph cluster_p{'''
+    grafico = grafico + f'''label = "{nodo_terreno.dato}"
         bgcolor = "#398D9C"
-        raiz[label = "0,0"]
-        edge[dir = "both"]
-        Fila1[label = "1", group = 1];
-        Fila2[label = "2", group = 1];
-        Fila3[label = "3", group = 1];
-        Fila4[label = "4", group = 1];
-        Fila5[label = "5", group = 1];
-    }
-    }"""
+        edge[dir = "both" shape = diamond arrowhead = vee arrowtail = diamond]\n'''
+
+    punteroY = terreno_actual_aux.cabecera_filas.primero
+    while punteroY is not None:
+        punteroX = punteroY.acceso
+        while punteroX is not None:
+            grafico = grafico + f'''\t\tNodo{punteroX.x}{punteroY.y}[label = "{punteroX.data}", group = "{punteroX.x}", fillcolor = gray34 ];\n'''
+            punteroX = punteroX.derecha
+        punteroY = punteroY.abajo
+
+    punteroY = terreno_actual_aux.cabecera_filas.primero
+    while punteroY is not None:
+        punteroX=punteroY.acceso
+        rank = '{rank = same;'
+        rank = rank + f'Nodo{punteroX.x}{punteroY.y}'
+        while punteroX.derecha is not None:
+            grafico = grafico + f'''\t\tNodo{punteroX.x}{punteroY.y}->Nodo{punteroX.x+1}{punteroY.y}'''
+            rank = rank + f''';Nodo{punteroX.x + 1}{punteroY.y}'''
+            punteroX = punteroX.derecha
+        rank = rank + '''}'''
+        grafico = grafico + rank 
+        punteroY = punteroY.abajo
+
+    punteroX = terreno_actual_aux.cabecera_columnas.primero
+    while punteroX is not None:
+        punteroY = punteroX.acceso
+        while punteroY.abajo is not None:
+            grafico = grafico + f'''\t\tNodo{punteroX.x}{punteroY.y}->Nodo{punteroX.x}{punteroY.y + 1}'''
+            punteroY = punteroY.abajo
+        punteroX = punteroX.derecha
+    
+    
+
+    #Fin del gráfico
+    grafico = grafico + '''}
+    }'''
     miArchivo = open('graphviz.dot', 'w')
     miArchivo.write(grafico)
-    miArchivo.close
+    miArchivo.close()
     system('dot -Tpng graphviz.dot -o graphviz.png')
     system('cd ./graphviz.png')
     startfile('graphviz.png')
