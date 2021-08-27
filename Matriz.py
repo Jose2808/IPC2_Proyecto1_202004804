@@ -1,7 +1,6 @@
 from Lista import ListaNodos
-from Nodo import Nodo
 from Encabezados import columnas, filas
-from Nodos import NodoC, NodoF, NodoM, NodoN, NodoP
+from Nodos import NodoC, NodoF, NodoM, NodoP
 
 class Matriz:
     def __init__ (self):

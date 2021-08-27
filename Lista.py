@@ -1,5 +1,4 @@
-from Nodo import Nodo
-from Nodos import NodoM, NodoN, NodoP
+from Nodos import NodoN, NodoP
 class Lista:
     def __init__(self):
         self.inicio = None
@@ -28,7 +27,6 @@ class Lista:
             else:
                 return None
 
-    
     def asignarMapa(self, terreno, mapa):
         puntero = self.inicio
         while puntero.siguiente is not None:
@@ -46,11 +44,17 @@ class Lista:
         puntero.setMapaAux(mapa)
     
     def recorrer(self):
-        puntero = self.inicio
-        while puntero.siguiente is not None:
-            print(puntero.getDato() +"---->"+puntero.siguiente.getDato())
-            puntero = puntero.siguiente
+        if self.inicio is not None:
+            print("Los terrenos registrados en el programa son: ")
+            puntero = self.inicio
+            while puntero.siguiente is not None:
+                print("- " + puntero.getDato())
+                puntero = puntero.siguiente
+        else:
+            return None
 
+    def vacia(self):
+        return self.inicio == None
 
 class ListaNodos:
     def __init__ (self):
@@ -147,28 +151,6 @@ class Lista_prioridad:
                 puntero.siguiente = temp.siguiente
                 del temp
 
-
-    
-    #def insertar(self, nodo):
-        #nodo = NodoP(nodo_nuevo)
-        #if self.inicio == None:
-            #self.inicio = nodo
-        #else:
-            #if nodo.nodo.data < self.inicio.nodo.data:
-                #nodo.siguiente = self.inicio
-                #self.inicio = nodo
-            #else:
-                #puntero = self.inicio
-                #while puntero.siguiente is not None:
-                    #if nodo.nodo.data < puntero.siguiente.nodo.data:
-                        #nodo.siguiente = puntero.siguiente
-                        #puntero.siguiente = nodo
-                        #break
-                    #puntero = puntero.siguiente
-
-                #if puntero.siguiente is None:
-                    #puntero.siguiente = nodo
-
     def existe(self, nodo):
         puntero = self.inicio
         while puntero is not None:
@@ -177,7 +159,6 @@ class Lista_prioridad:
             puntero = puntero.siguiente
         if puntero is None:
             return False
-
 
     def insertar(self, nodo):
         nodo_nuevo = NodoP(nodo)
@@ -202,8 +183,7 @@ class Lista_prioridad:
                 puntero = puntero.siguiente
             if puntero.siguiente is None:
                 puntero.siguiente = nodo_nuevo
-                
-            
+                            
     def recorrer(self):
         puntero = self.inicio
         while puntero is not None:
