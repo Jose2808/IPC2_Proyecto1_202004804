@@ -52,6 +52,8 @@ class columnas:
         else:
             return 0
 
+    def menorX(self):
+        return self.primero
 
 class filas:
     def __init__ (self):
@@ -106,6 +108,7 @@ class filas:
         else:
             return 0
 
-
+    def menorY(self):
+        return self.primero
 
 

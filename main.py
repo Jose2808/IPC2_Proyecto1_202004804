@@ -59,8 +59,7 @@ def carga():
         for posiciones in terreno.findall("posicion"):
             mapa.agregarNodo(int(posiciones.text), int(posiciones.get("x")), int(posiciones.get("y" )))
             mapa_aux.agregarNodo(int(posiciones.text), int(posiciones.get("x")), int(posiciones.get("y" )))
-        if (mapa.mayorX() > terreno_actual.n) or (mapa.mayorY() > terreno_actual.m):
-            print("Dimensiones no validas")
+        if (mapa.mayorX() != terreno_actual.n) or (mapa.mayorY() != terreno_actual.m) or (terreno_actual.n > 100) or (terreno_actual.m > 100):
             continue
         else:
             terrenos.insertar(terreno_actual)
@@ -145,6 +144,7 @@ def menuPrincipal():
     respuesta = input()
     if int(respuesta) == 1:
         carga()
+
     elif int(respuesta) == 2:
         if terrenos.vacia():
             print("")
@@ -171,51 +171,56 @@ def menuPrincipal():
             print("")
             print("")
             lista = Lista_prioridad()
+            nodo_final = terreno_actual.obtenerNodo(nodo_terreno.finalX, nodo_terreno.finalY)
             nodo_actual = terreno_actual.obtenerNodo(nodo_terreno.inicioX, nodo_terreno.inicioY)
-            if nodo_actual is not None:
-                camino.insertarNodo(nodo_actual.nodo)
-                while ((nodo_actual.nodo.x != nodo_terreno.finalX) or (nodo_actual.nodo.y != nodo_terreno.finalY)):
-                    vecinos = terreno_actual.obtenerHermanos(nodo_actual.nodo.x, nodo_actual.nodo.y)
-                    if vecinos.inicio is not None:
-                        puntero = vecinos.inicio
-                        while puntero is not None:
-                            puntero.nodo.setData(nodo_actual)
-                            lista.insertar(puntero.nodo)
-                            puntero = puntero.siguiente
-                    nodo_actual.nodo.visitado = True
-                    nodo_actual = lista.pop()
+            if nodo_final is not None:
+                if nodo_actual is not None:
                     camino.insertarNodo(nodo_actual.nodo)
-                print("************************************************")
-                print("          RUTA ENCONTRADA EXITOSAMENTE          ")
-                print("************************************************")
-                print("")
-                print("EL COSTO DE COMBUSTIBLE DE LA RUTA MÁS ÓPTIMA ES: ")
-                print("Coordenadas    x: ", nodo_actual.nodo.x , "y: ", nodo_actual.nodo.y, "Gasto de combustible: ", nodo_actual.nodo.data)
-                print("")
-                print("")
+                    while ((nodo_actual.nodo.x != nodo_terreno.finalX) or (nodo_actual.nodo.y != nodo_terreno.finalY)):
+                        vecinos = terreno_actual.obtenerHermanos(nodo_actual.nodo.x, nodo_actual.nodo.y)
+                        if vecinos.inicio is not None:
+                            puntero = vecinos.inicio
+                            while puntero is not None:
+                                puntero.nodo.setData(nodo_actual)
+                                lista.insertar(puntero.nodo)
+                                puntero = puntero.siguiente
+                        nodo_actual.nodo.visitado = True
+                        nodo_actual = lista.pop()
+                        camino.insertarNodo(nodo_actual.nodo)
+                    print("************************************************")
+                    print("          RUTA ENCONTRADA EXITOSAMENTE          ")
+                    print("************************************************")
+                    print("")
+                    print("EL COSTO DE COMBUSTIBLE DE LA RUTA MÁS ÓPTIMA ES: ")
+                    print("Coordenadas    x: ", nodo_actual.nodo.x , "y: ", nodo_actual.nodo.y, "Gasto de combustible: ", nodo_actual.nodo.data)
+                    print("")
+                    print("")
 
-                #Procedimiento para obtener el recorrido del camino más corto
-                ultimo = camino.inicio
-                ruta = ListaCamino()
-                while ultimo.siguiente is not None:
-                    ultimo = ultimo.siguiente
-                while ultimo != None:
-                    ruta.insertarNodo(ultimo.nodo)
-                    ultimo = ultimo.nodo.nodoPadre
-                nodo = 0
-                
-                #Ciclo para escribir la matriz con 0's y 1's
-                for i in range(terreno_actual.cabecera_columnas.primero.x , nodo_terreno.m  + terreno_actual.cabecera_columnas.primero.x):
-                    for j in range(terreno_actual.cabecera_filas.primero.y, nodo_terreno.n + terreno_actual.cabecera_filas.primero.y):
-                        if ruta.verificarPunto(j, i):
-                            print(Fore.LIGHTRED_EX,str(nodo + 1) + Fore.WHITE,"  |   ", end ="")
-                        else:
-                            print(Fore.WHITE,str(nodo) + "   |   ", end ="")
-                    j = j+1
-                    print("\n")
-                i = i+1
+                    #Procedimiento para obtener el recorrido del camino más corto
+                    ultimo = camino.inicio
+                    ruta = ListaCamino()
+                    while ultimo.siguiente is not None:
+                        ultimo = ultimo.siguiente
+                    while ultimo != None:
+                        ruta.insertarNodo(ultimo.nodo)
+                        ultimo = ultimo.nodo.nodoPadre
+                    nodo = 0
+                    
+                    #Ciclo para escribir la matriz con 0's y 1's
+                    for i in range(terreno_actual.cabecera_columnas.primero.x , nodo_terreno.m  + terreno_actual.cabecera_columnas.primero.x):
+                        for j in range(terreno_actual.cabecera_filas.primero.y, nodo_terreno.n + terreno_actual.cabecera_filas.primero.y):
+                            if ruta.verificarPunto(j, i):
+                                print(Fore.LIGHTRED_EX,str(nodo + 1) + Fore.WHITE,"  |   ", end ="")
+                            else:
+                                print(Fore.WHITE,str(nodo) + "   |   ", end ="")
+                        j = j+1
+                        print("\n")
+                    i = i+1
+                else:
+                    print("El punto de inicio que ha ingresado no exite en la matriz")  
             else:
-                print("El punto de inicio que ha ingresado no exite en la matriz")  
+                print("El punto de final que ha ingresado no existe en la matriz")
+
     elif int(respuesta) == 3:
         print("Escriba la ruta de donde quiere guardar el archivo")
         ruta_archivo = input()
@@ -259,17 +264,21 @@ def menuPrincipal():
                 print("El archivo se ha escrito satisfactoriamente")
             except:
                 print("Ocurrió un error al escribir el archivo, por favor inténtelo de nuevo")
+
     elif int(respuesta) == 4:
         print("José Andrés Montenegro Santos")
         print("202004804")
         print("Introducción a la Programación y Computación 2 sección: A")
         print("Ingeniería en Ciencias y Sistemas")
         print("4to Semestre")
+
     elif int(respuesta) == 5:
         generarGrafico()
+        
     elif int(respuesta) == 6:
         global end_program
         end_program = True    
+
 def main():
     menuPrincipal()
 
