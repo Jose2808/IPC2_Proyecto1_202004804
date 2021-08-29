@@ -83,18 +83,22 @@ def generarGrafico():
         
         #Inicio del proceso de creación del gráfico
         grafico = '''digraph L{
-            node[shape = doublecircle fillcolor = "#FFEDBB" style = filled]
+            node[shape = doublecircle fillcolor = "burlywood" style = filled]
             subgraph cluster_p{'''
         grafico = grafico + f'''label = "{nodo_terreno.dato}"
-            bgcolor = "#398D9C"
-            edge[dir = "both" shape = diamond arrowhead = vee arrowtail = diamond]\n'''
+            bgcolor = "cornflowerblue"
+            fixedsize = True
+            fixedsize = True
+			fontsize = 40
+			fontcolor = dodgerblue4
+            edge[dir = "both" shape = diamond arrowhead = vee arrowtail = diamond fillcolor ="darkblue"]\n'''
         
         #Creación de todos los nodos de la matriz
         punteroY = terreno_actual_aux.cabecera_filas.primero
         while punteroY is not None:
             punteroX = punteroY.acceso
             while punteroX is not None:
-                grafico = grafico + f'''\t\tNodo{punteroX.x}_{punteroY.y}[label = "{punteroX.data}", group = "{punteroX.x}", fillcolor = gray34 ];\n'''
+                grafico = grafico + f'''\t\tNodo{punteroX.x}_{punteroY.y}[label = "{punteroX.data}", group = "{punteroX.x}", fillcolor = burlywood ];\n'''
                 punteroX = punteroX.derecha
             punteroY = punteroY.abajo
 
