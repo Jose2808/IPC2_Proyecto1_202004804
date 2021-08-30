@@ -196,7 +196,9 @@ def menuPrincipal():
                     print("************************************************")
                     print("")
                     print("EL COSTO DE COMBUSTIBLE DE LA RUTA MÁS ÓPTIMA ES: ")
-                    print("Coordenadas    x: ", nodo_actual.nodo.x , "y: ", nodo_actual.nodo.y, "Gasto de combustible: ", nodo_actual.nodo.data)
+                    print("Coordenadas Iniciales   x: ", nodo_terreno.inicioX , "y: ", nodo_terreno.inicioY)
+                    print("Coordenadas Finales   x: ", nodo_actual.nodo.x , "y: ", nodo_actual.nodo.y)
+                    print("Gasto de combustible: ", nodo_actual.nodo.data)
                     print("")
                     print("")
 
